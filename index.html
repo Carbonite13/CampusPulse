@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CampusPulse Event Inquiry – submit your event questions and requests through our secure form." />
+  <title>Event Inquiry — CampusPulse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <!-- Geometric decorative corner marks -->
+  <span class="corner corner--tl" aria-hidden="true"></span>
+  <span class="corner corner--tr" aria-hidden="true"></span>
+  <span class="corner corner--bl" aria-hidden="true"></span>
+  <span class="corner corner--br" aria-hidden="true"></span>
+
+  <main class="page-wrap">
+    <header class="site-header">
+      <div class="logo-mark" aria-hidden="true">◈</div>
+      <div class="header-text">
+        <p class="eyebrow">CampusPulse</p>
+        <h1 class="page-title">Event Inquiry</h1>
+      </div>
+      <div class="header-rule" aria-hidden="true"></div>
+    </header>
+
+    <form
+      id="inquiryForm"
+      class="inquiry-form"
+      action="http://localhost:8080/v1/fetch"
+      method="GET"
+      novalidate
+    >
+      <!-- Username field -->
+      <div class="field-group" id="group-username">
+        <label class="field-label" for="username">
+          <span class="label-index" aria-hidden="true">01</span>
+          Username
+          <span class="required-mark" aria-hidden="true">*</span>
+        </label>
+        <div class="input-wrap">
+          <input
+            class="field-input"
+            type="text"
+            name="username"
+            id="username"
+            placeholder="your_handle"
+            autocomplete="username"
+            aria-required="true"
+            aria-describedby="err-username"
+          />
+          <span class="field-glyph" aria-hidden="true">⌀</span>
+        </div>
+        <div class="field-error" id="err-username" role="alert" aria-live="polite"></div>
+      </div>
+
+      <!-- Email field -->
+      <div class="field-group" id="group-email">
+        <label class="field-label" for="email">
+          <span class="label-index" aria-hidden="true">02</span>
+          Email Address
+          <span class="required-mark" aria-hidden="true">*</span>
+        </label>
+        <div class="input-wrap">
+          <input
+            class="field-input"
+            type="email"
+            name="email"
+            id="email"
+            placeholder="you@university.edu"
+            autocomplete="email"
+            aria-required="true"
+            aria-describedby="err-email"
+          />
+          <span class="field-glyph" aria-hidden="true">◻</span>
+        </div>
+        <div class="field-error" id="err-email" role="alert" aria-live="polite"></div>
+      </div>
+
+      <!-- Inquiry type -->
+      <div class="field-group" id="group-type">
+        <label class="field-label" for="inquiryType">
+          <span class="label-index" aria-hidden="true">03</span>
+          Inquiry Type
+          <span class="required-mark" aria-hidden="true">*</span>
+        </label>
+        <div class="input-wrap select-wrap">
+          <select
+            class="field-input field-select"
+            name="inquiryType"
+            id="inquiryType"
+            aria-required="true"
+            aria-describedby="err-type"
+          >
+            <option value="" disabled selected>Select a category</option>
+            <option value="event-info">Event Information</option>
+            <option value="registration">Registration &amp; Tickets</option>
+            <option value="venue">Venue &amp; Logistics</option>
+            <option value="speaker">Speaker / Performer</option>
+            <option value="sponsorship">Sponsorship</option>
+            <option value="other">Other</option>
+          </select>
+          <span class="select-arrow" aria-hidden="true">▾</span>
+        </div>
+        <div class="field-error" id="err-type" role="alert" aria-live="polite"></div>
+      </div>
+
+      <!-- Description textarea -->
+      <div class="field-group field-group--full" id="group-desc">
+        <label class="field-label" for="desc">
+          <span class="label-index" aria-hidden="true">04</span>
+          Description
+          <span class="required-mark" aria-hidden="true">*</span>
+        </label>
+        <div class="input-wrap textarea-wrap">
+          <textarea
+            class="field-input field-textarea"
+            name="description"
+            id="desc"
+            rows="6"
+            placeholder="Describe your inquiry in detail…"
+            aria-required="true"
+            aria-describedby="err-desc"
+            maxlength="1000"
+          ></textarea>
+          <span class="char-count" id="charCount" aria-live="polite">0 / 1000</span>
+        </div>
+        <div class="field-error" id="err-desc" role="alert" aria-live="polite"></div>
+      </div>
+
+      <div class="form-footer">
+        <button class="btn-submit" type="submit" id="submitBtn">
+          <span class="btn-label">Submit Inquiry</span>
+          <span class="btn-icon" aria-hidden="true">→</span>
+        </button>
+        <p class="form-note">
+          <span aria-hidden="true">◈</span>
+          Fields marked <abbr title="required">*</abbr> are required
+        </p>
+      </div>
+    </form>
+  </main>
+
+  <!-- Success popup -->
+  <div class="popup-overlay" id="successOverlay" role="dialog" aria-modal="true" aria-labelledby="successTitle" hidden>
+    <div class="popup popup--success">
+      <div class="popup-icon" aria-hidden="true">◈</div>
+      <h2 class="popup-title" id="successTitle">Inquiry Received</h2>
+      <p class="popup-body">Your inquiry has been logged. We'll get back to you at the provided email address.</p>
+      <button class="btn-popup" id="closeSuccess">Dismiss</button>
+    </div>
+  </div>
+
+  <!-- Tooltip popup (reused for field errors as floating tooltip) -->
+  <div class="tooltip-bubble" id="tooltipBubble" role="tooltip" aria-hidden="true"></div>
+
+  <script src="./main.js"></script>
+</body>
+
+</html>
